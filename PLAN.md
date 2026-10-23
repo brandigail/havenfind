@@ -1,0 +1,19 @@
+# HavenFind: Build Plan
+
+- [ ] 1. Scaffold the project (stack in `CLAUDE.md`), strict `tsconfig`, lint, `netlify.toml`, `.env.example`; first working commit
+- [ ] 2. Neon schema with PostGIS geometry and GIST index
+- [ ] 3. `types/` interfaces and zod schemas
+- [ ] 4. Seed script with 40+ listings and local placeholder images
+- [ ] 5. Listings API: bbox + filter query
+- [ ] 6. Client-only Leaflet map with clustering
+- [ ] 7. Listing cards and map/list sync
+- [ ] 8. Filter panel with URL state
+- [ ] 9. Listing detail page and gallery
+- [ ] 10. Mortgage calculator component with tests
+- [ ] 11. Saved homes (post-mount localStorage)
+- [ ] 12. Viewing booking form and API
+- [ ] 13. Mobile layout (map/list toggle) and accessibility pass
+- [ ] 14. Quality gate: `npm run build`, lint and `tsc --noEmit` all pass; no console errors; core flow tested at 375px and desktop
+- [ ] 15. README: pitch, features, stack, architecture notes, screenshot placeholders, run steps, 3-bullet "what to demo to a recruiter", Phase 2 list
+- [ ] 16. Deploy to Netlify, set env vars, verify the public URL end to end
+- [ ] 17. Push to GitHub and update the live URL in `README.md` and the root `LINKS.md`
