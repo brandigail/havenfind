@@ -3,18 +3,29 @@
 import L from "leaflet";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMap } from "react-leaflet";
 import { formatPrice, formatPriceCompact } from "@/lib/format";
 import type { Listing } from "@/types";
 
 interface ClusterLayerProps {
   listings: Listing[];
+  /** Highlighted pin (hovered or selected card). */
+  activeId: string | null;
+  /** Pin to reveal and open when chosen from the list. */
+  selectedId: string | null;
+  onHover: (id: string | null) => void;
+  onSelect: (id: string) => void;
 }
 
-function pinIcon(listing: Listing): L.DivIcon {
+interface MarkerEntry {
+  marker: L.Marker;
+  listing: Listing;
+}
+
+function pinIcon(listing: Listing, active: boolean): L.DivIcon {
   const label = document.createElement("span");
-  label.className = "hf-pin";
+  label.className = active ? "hf-pin hf-pin--active" : "hf-pin";
   label.textContent = formatPriceCompact(listing.price);
   return L.divIcon({ html: label, className: "hf-pin-wrap", iconSize: [0, 0] });
 }
@@ -29,12 +40,14 @@ function popupContent(listing: Listing): HTMLElement {
   return root;
 }
 
-export function ClusterLayer({ listings }: ClusterLayerProps) {
+export function ClusterLayer({ listings, activeId, selectedId, onHover, onSelect }: ClusterLayerProps) {
   const map = useMap();
+  const entries = useRef(new Map<string, MarkerEntry>());
+  const [group, setGroup] = useState<L.MarkerClusterGroup | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    let group: L.MarkerClusterGroup | undefined;
+    let created: L.MarkerClusterGroup | undefined;
 
     async function mount(): Promise<void> {
       // leaflet.markercluster extends a global `L`, so expose it before loading the plugin.
@@ -42,23 +55,49 @@ export function ClusterLayer({ listings }: ClusterLayerProps) {
       await import("leaflet.markercluster");
       if (cancelled) return;
 
-      group = L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 50 });
-      group.addLayers(
-        listings.map((listing) =>
-          L.marker([listing.lat, listing.lng], { icon: pinIcon(listing), title: listing.title }).bindPopup(
-            popupContent(listing),
-          ),
-        ),
-      );
-      map.addLayer(group);
+      const next = new Map<string, MarkerEntry>();
+      const markers = listings.map((listing) => {
+        const marker = L.marker([listing.lat, listing.lng], { icon: pinIcon(listing, false), title: listing.title })
+          .bindPopup(popupContent(listing))
+          .on("click", () => onSelect(listing.id))
+          .on("mouseover", () => onHover(listing.id))
+          .on("mouseout", () => onHover(null));
+        next.set(listing.id, { marker, listing });
+        return marker;
+      });
+
+      created = L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 50 });
+      created.addLayers(markers);
+      map.addLayer(created);
+      entries.current = next;
+      setGroup(created);
     }
 
     void mount();
     return () => {
       cancelled = true;
-      if (group) map.removeLayer(group);
+      if (created) map.removeLayer(created);
+      entries.current = new Map();
+      setGroup(null);
     };
-  }, [map, listings]);
+  }, [map, listings, onHover, onSelect]);
+
+  // Highlight the active pin; setIcon also works while the marker is hidden inside a cluster.
+  useEffect(() => {
+    const entry = group && activeId ? entries.current.get(activeId) : undefined;
+    if (!entry) return;
+    entry.marker.setIcon(pinIcon(entry.listing, true)).setZIndexOffset(1000);
+    return () => {
+      entry.marker.setIcon(pinIcon(entry.listing, false)).setZIndexOffset(0);
+    };
+  }, [group, activeId]);
+
+  // Zoom out of any cluster hiding the selected pin, then open its popup.
+  useEffect(() => {
+    const entry = group && selectedId ? entries.current.get(selectedId) : undefined;
+    if (!group || !entry) return;
+    group.zoomToShowLayer(entry.marker, () => entry.marker.openPopup());
+  }, [group, selectedId]);
 
   return null;
 }

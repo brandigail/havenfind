@@ -43,3 +43,9 @@ body {
   box-shadow: 0 1px 4px rgb(0 0 0 / 35%);
   border: 2px solid #fff;
 }
+
+.hf-pin--active {
+  background: #f59e0b;
+  color: #111827;
+  transform: translate(-50%, -100%) scale(1.15);
+}

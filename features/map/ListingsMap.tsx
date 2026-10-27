@@ -10,10 +10,14 @@ const CAPE_TOWN: [number, number] = [-33.95, 18.45];
 
 export interface ListingsMapProps {
   listings: Listing[];
+  activeId: string | null;
+  selectedId: string | null;
+  onHover: (id: string | null) => void;
+  onSelect: (id: string) => void;
   onBoundsChange: (bounds: MapBounds) => void;
 }
 
-export default function ListingsMap({ listings, onBoundsChange }: ListingsMapProps) {
+export default function ListingsMap({ onBoundsChange, ...layerProps }: ListingsMapProps) {
   return (
     <MapContainer center={CAPE_TOWN} zoom={11} className="h-full w-full" aria-label="Map of property listings">
       <TileLayer
@@ -21,7 +25,7 @@ export default function ListingsMap({ listings, onBoundsChange }: ListingsMapPro
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ViewportReporter onBoundsChange={onBoundsChange} />
-      <ClusterLayer listings={listings} />
+      <ClusterLayer {...layerProps} />
     </MapContainer>
   );
 }

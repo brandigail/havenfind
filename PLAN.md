@@ -6,7 +6,7 @@
 - [x] 4. Seed script with 40+ listings and local placeholder images
 - [x] 5. Listings API: bbox + filter query
 - [x] 6. Client-only Leaflet map with clustering
-- [ ] 7. Listing cards and map/list sync
+- [x] 7. Listing cards and map/list sync
 - [ ] 8. Filter panel with URL state
 - [ ] 9. Listing detail page and gallery
 - [ ] 10. Mortgage calculator component with tests
