@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import { SavedLink } from "@/features/saved/SavedLink";
 import { AMENITIES } from "@/lib/amenities";
 import { DEFAULT_FILTERS, countActiveFilters } from "@/lib/filters";
 import { formatPriceCompact } from "@/lib/format";
@@ -59,6 +60,7 @@ export function FilterPanel({ filters, onChange }: FilterPanelProps) {
         >
           Filters{activeCount > 0 ? ` (${activeCount})` : ""}
         </button>
+        <SavedLink />
         <label htmlFor={sortId} className="sr-only">
           Sort by
         </label>

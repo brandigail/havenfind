@@ -70,3 +70,9 @@ export const listingFiltersSchema = z.object({
   amenities: csv(z.string()).optional(),
   sort: sortOptionSchema.default("price-asc"),
 }) satisfies z.ZodType<ListingFilters, unknown>;
+
+/** Comma-separated listing ids from a query string (capped to keep URLs and queries small). */
+export const idsSchema = z
+  .string()
+  .transform((s) => s.split(",").filter(Boolean))
+  .pipe(z.array(z.string().min(1).max(64)).max(100));

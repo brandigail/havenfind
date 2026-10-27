@@ -29,8 +29,9 @@ const ORDER = {
   newest: [desc(listings.id)],
 } as const;
 
-function buildWhere(filters: ListingFilters, bounds?: MapBounds): SQL | undefined {
+function buildWhere(filters: ListingFilters, bounds?: MapBounds, ids?: string[]): SQL | undefined {
   const conditions: (SQL | undefined)[] = [
+    ids ? inArray(listings.id, ids) : undefined,
     // `&&` uses the GIST index on listings.location
     bounds
       ? sql`${listings.location} && ST_MakeEnvelope(${bounds.west}, ${bounds.south}, ${bounds.east}, ${bounds.north}, 4326)`
@@ -53,8 +54,12 @@ export interface ListingsResult {
   total: number;
 }
 
-export async function queryListings(filters: ListingFilters, bounds?: MapBounds): Promise<ListingsResult> {
-  const where = buildWhere(filters, bounds);
+export async function queryListings(
+  filters: ListingFilters,
+  bounds?: MapBounds,
+  ids?: string[],
+): Promise<ListingsResult> {
+  const where = buildWhere(filters, bounds, ids);
 
   const [rows, [totalRow]] = await Promise.all([
     db

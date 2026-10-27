@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Gallery } from "@/features/listing-detail/Gallery";
 import { MortgageCalculator } from "@/features/listing-detail/MortgageCalculator";
+import { SaveButton } from "@/features/saved/SaveButton";
 import { formatPrice } from "@/lib/format";
 import { getListingDetail } from "@/lib/listings/get";
 
@@ -38,9 +39,12 @@ export default async function ListingPage({ params }: PageProps<"/listings/[id]"
 
   return (
     <main className="mx-auto flex max-w-5xl flex-col gap-6 p-4 lg:p-8">
-      <Link href="/" className="self-start text-sm font-medium text-teal-700 underline dark:text-teal-400">
-        ← Back to map
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link href="/" className="text-sm font-medium text-teal-700 underline dark:text-teal-400">
+          ← Back to map
+        </Link>
+        <SaveButton listingId={listing.id} withLabel />
+      </div>
 
       <div className="grid gap-6 lg:grid-cols-[3fr_2fr]">
         <Gallery images={listing.images} title={listing.title} />

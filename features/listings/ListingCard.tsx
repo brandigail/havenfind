@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { SaveButton } from "@/features/saved/SaveButton";
 import { formatPrice } from "@/lib/format";
 import type { Listing } from "@/types";
 
@@ -67,6 +68,7 @@ export function ListingCard({ listing, active, selected, onHover, onSelect }: Li
       >
         Details →
       </Link>
+      <SaveButton listingId={listing.id} className="absolute bottom-1.5 right-2" />
     </div>
   );
 }

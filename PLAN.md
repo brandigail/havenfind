@@ -10,7 +10,7 @@
 - [x] 8. Filter panel with URL state
 - [x] 9. Listing detail page and gallery
 - [x] 10. Mortgage calculator component with tests
-- [ ] 11. Saved homes (post-mount localStorage)
+- [x] 11. Saved homes (post-mount localStorage)
 - [ ] 12. Viewing booking form and API
 - [ ] 13. Mobile layout (map/list toggle) and accessibility pass
 - [ ] 14. Quality gate: `npm run build`, lint and `tsc --noEmit` all pass; no console errors; core flow tested at 375px and desktop

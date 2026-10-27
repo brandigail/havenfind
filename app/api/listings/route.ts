@@ -1,5 +1,5 @@
 import { queryListings } from "@/lib/listings/query";
-import { listingFiltersSchema, mapBoundsSchema } from "@/lib/schemas";
+import { idsSchema, listingFiltersSchema, mapBoundsSchema } from "@/lib/schemas";
 
 export const dynamic = "force-dynamic";
 
@@ -20,8 +20,15 @@ export async function GET(request: Request): Promise<Response> {
     return Response.json({ error: "Invalid bounds", issues: bounds.error.issues }, { status: 400 });
   }
 
+  // Optional comma-separated ids (used by the saved homes page). An empty list matches nothing.
+  const ids = "ids" in params ? idsSchema.safeParse(params.ids) : undefined;
+  if (ids && !ids.success) {
+    return Response.json({ error: "Invalid ids", issues: ids.error.issues }, { status: 400 });
+  }
+  if (ids?.data.length === 0) return Response.json({ listings: [], total: 0 });
+
   try {
-    return Response.json(await queryListings(filters.data, bounds?.data));
+    return Response.json(await queryListings(filters.data, bounds?.data, ids?.data));
   } catch {
     return Response.json({ error: "Failed to load listings" }, { status: 500 });
   }
