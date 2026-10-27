@@ -95,7 +95,7 @@ export function MortgageCalculator({ price }: MortgageCalculatorProps) {
           </dd>
         </dl>
       </div>
-      <p className="mt-2 text-[11px] text-zinc-500">Indicative only. Excludes transfer costs, bond fees and insurance.</p>
+      <p className="mt-2 text-[11px] text-zinc-600 dark:text-zinc-400">Indicative only. Excludes transfer costs, bond fees and insurance.</p>
     </section>
   );
 }

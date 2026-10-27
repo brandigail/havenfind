@@ -87,10 +87,10 @@ export default async function ListingPage({ params }: PageProps<"/listings/[id]"
               Listing agent
             </h2>
             <p>{agent.name}</p>
-            <a href={`tel:${agent.phone.replace(/\s/g, "")}`} className="block text-teal-700 underline dark:text-teal-400">
+            <a href={`tel:${agent.phone.replace(/\s/g, "")}`} className="block py-1 text-teal-700 underline dark:text-teal-400">
               {agent.phone}
             </a>
-            <a href={`mailto:${agent.email}`} className="block text-teal-700 underline dark:text-teal-400">
+            <a href={`mailto:${agent.email}`} className="block py-1 text-teal-700 underline dark:text-teal-400">
               {agent.email}
             </a>
           </section>

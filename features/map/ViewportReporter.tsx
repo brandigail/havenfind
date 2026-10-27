@@ -14,7 +14,10 @@ export function ViewportReporter({ onBoundsChange }: ViewportReporterProps) {
 
   const report = (): void => {
     const b = map.getBounds();
-    onBoundsChange({ south: b.getSouth(), west: b.getWest(), north: b.getNorth(), east: b.getEast() });
+    const bounds = { south: b.getSouth(), west: b.getWest(), north: b.getNorth(), east: b.getEast() };
+    // A hidden (zero-size) map has empty bounds, which the API rejects, so wait until it is visible.
+    if (bounds.south >= bounds.north || bounds.west >= bounds.east) return;
+    onBoundsChange(bounds);
   };
 
   useMapEvents({ moveend: report });

@@ -77,7 +77,7 @@ export function BookingForm({ listingId, agentName }: BookingFormProps) {
           Viewing requested
         </h2>
         <p role="status">
-          {agentName} will meet you on {formatSlot(status.slot)}. A confirmation will be sent to {email}.
+          Your request for {formatSlot(status.slot)} has been recorded. {agentName} will meet you at the property.
         </p>
       </section>
     );

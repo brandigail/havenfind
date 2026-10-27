@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer } from "react-leaflet";
 import type { Listing, MapBounds } from "@/types";
 import { ClusterLayer } from "./ClusterLayer";
+import { MapResizer } from "./MapResizer";
 import { ViewportReporter } from "./ViewportReporter";
 
 const CAPE_TOWN: [number, number] = [-33.95, 18.45];
@@ -24,6 +25,7 @@ export default function ListingsMap({ onBoundsChange, ...layerProps }: ListingsM
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <MapResizer />
       <ViewportReporter onBoundsChange={onBoundsChange} />
       <ClusterLayer {...layerProps} />
     </MapContainer>

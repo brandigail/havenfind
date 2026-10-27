@@ -20,7 +20,7 @@ export function SaveButton({ listingId, withLabel = false, className = "" }: Sav
       aria-label={saved ? "Remove from saved homes" : "Save home"}
       onClick={() => toggle(listingId)}
       className={`inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-sm focus-visible:outline-2 focus-visible:outline-teal-600 ${
-        saved ? "text-rose-600" : "text-zinc-500 hover:text-rose-600"
+        saved ? "text-rose-600 dark:text-rose-400" : "text-zinc-600 hover:text-rose-600 dark:text-zinc-400 dark:hover:text-rose-400"
       } ${className}`}
     >
       <span aria-hidden="true" className="text-lg leading-none">

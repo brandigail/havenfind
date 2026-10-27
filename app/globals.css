@@ -49,3 +49,10 @@ body {
   color: #111827;
   transform: translate(-50%, -100%) scale(1.15);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .leaflet-zoom-anim .leaflet-zoom-animated,
+  .leaflet-fade-anim .leaflet-popup {
+    transition: none !important;
+  }
+}

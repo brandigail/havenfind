@@ -64,7 +64,7 @@ export function ListingCard({ listing, active, selected, onHover, onSelect }: Li
       <Link
         href={`/listings/${listing.id}`}
         aria-label={`View details: ${listing.title}`}
-        className="absolute right-3 top-2.5 text-xs font-medium text-teal-700 underline focus-visible:outline-2 focus-visible:outline-teal-600 dark:text-teal-400"
+        className="absolute right-1.5 top-1.5 flex min-h-6 items-center px-1.5 text-xs font-medium text-teal-700 underline focus-visible:outline-2 focus-visible:outline-teal-600 dark:text-teal-400"
       >
         Details →
       </Link>

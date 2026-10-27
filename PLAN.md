@@ -12,7 +12,7 @@
 - [x] 10. Mortgage calculator component with tests
 - [x] 11. Saved homes (post-mount localStorage)
 - [x] 12. Viewing booking form and API
-- [ ] 13. Mobile layout (map/list toggle) and accessibility pass
+- [x] 13. Mobile layout (map/list toggle) and accessibility pass
 - [ ] 14. Quality gate: `npm run build`, lint and `tsc --noEmit` all pass; no console errors; core flow tested at 375px and desktop
 - [ ] 15. README: pitch, features, stack, architecture notes, screenshot placeholders, run steps, 3-bullet "what to demo to a recruiter", Phase 2 list
 - [ ] 16. Deploy to Netlify, set env vars, verify the public URL end to end

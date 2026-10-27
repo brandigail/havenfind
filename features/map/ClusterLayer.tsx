@@ -99,8 +99,9 @@ export function ClusterLayer({ listings, activeId, selectedId, onHover, onSelect
   useEffect(() => {
     const entry = group && selectedId ? entries.current.get(selectedId) : undefined;
     if (!group || !entry) return;
+    map.invalidateSize(); // the map may have just been revealed on mobile
     group.zoomToShowLayer(entry.marker, () => entry.marker.openPopup());
-  }, [group, selectedId]);
+  }, [map, group, selectedId]);
 
   return null;
 }

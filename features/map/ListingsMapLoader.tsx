@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 export const ListingsMapLoader = dynamic(() => import("./ListingsMap"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full w-full items-center justify-center bg-zinc-100 text-sm text-zinc-500 dark:bg-zinc-900">
+    <div className="flex h-full w-full items-center justify-center bg-zinc-100 text-sm text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
       Loading map…
     </div>
   ),
