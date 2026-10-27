@@ -1,2 +1,6 @@
 [build]
   command = "npm run build"
+
+# Declared explicitly so Git-triggered builds always run the Next.js runtime (functions, redirects, headers).
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
