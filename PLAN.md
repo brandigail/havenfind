@@ -2,7 +2,7 @@
 
 - [x] 1. Scaffold the project (stack in `CLAUDE.md`), strict `tsconfig`, lint, `netlify.toml`, `.env.example`; first working commit
 - [x] 2. Neon schema with PostGIS geometry and GIST index
-- [ ] 3. `types/` interfaces and zod schemas
+- [x] 3. `types/` interfaces and zod schemas
 - [ ] 4. Seed script with 40+ listings and local placeholder images
 - [ ] 5. Listings API: bbox + filter query
 - [ ] 6. Client-only Leaflet map with clustering
