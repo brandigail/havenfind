@@ -1,0 +1,46 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import type { Listing, MapBounds } from "@/types";
+
+const DEBOUNCE_MS = 250;
+
+interface ListingsState {
+  listings: Listing[];
+  total: number;
+  loading: boolean;
+  error: boolean;
+}
+
+/** Fetches listings for the current viewport, debounced and cancelling stale requests. */
+export function useListings(bounds: MapBounds | null): ListingsState {
+  const [state, setState] = useState<ListingsState>({ listings: [], total: 0, loading: true, error: false });
+
+  useEffect(() => {
+    if (!bounds) return;
+    const controller = new AbortController();
+
+    const timer = setTimeout(async () => {
+      setState((s) => ({ ...s, loading: true, error: false }));
+      try {
+        const query = new URLSearchParams(
+          Object.entries(bounds).map(([key, value]) => [key, String(value)]),
+        );
+        const res = await fetch(`/api/listings?${query}`, { signal: controller.signal });
+        if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+        const data = (await res.json()) as { listings: Listing[]; total: number };
+        setState({ listings: data.listings, total: data.total, loading: false, error: false });
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        setState((s) => ({ ...s, loading: false, error: true }));
+      }
+    }, DEBOUNCE_MS);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [bounds]);
+
+  return state;
+}
