@@ -1,3 +1,4 @@
+import { AMENITIES } from "@/lib/amenities";
 import type { Agent, Listing, PropertyType } from "@/types";
 
 interface Area {
@@ -20,8 +21,6 @@ const AREAS: Area[] = [
   { name: "Observatory", lat: -33.9378, lng: 18.4721, tier: 0.8, streets: ["Lower Main Road", "Trill Road", "Weltevreden Road"], types: ["HOUSE", "TOWNHOUSE", "APARTMENT"] },
   { name: "Durbanville", lat: -33.8329, lng: 18.6488, tier: 0.9, streets: ["Wellington Road", "Church Street", "Eversdal Road"], types: ["HOUSE", "HOUSE", "TOWNHOUSE", "LAND"] },
 ];
-
-const AMENITIES = ["Pool", "Garden", "Garage", "Sea view", "Mountain view", "Fibre", "Solar", "Security estate", "Pet friendly", "Braai area", "Backup power", "Gym"];
 
 /** Small deterministic PRNG so every seed run produces identical data. */
 function mulberry32(seed: number): () => number {

@@ -17,7 +17,7 @@ function sameListings(a: Listing[], b: Listing[]): boolean {
 }
 
 /** Fetches listings for the current viewport, debounced and cancelling stale requests. */
-export function useListings(bounds: MapBounds | null): ListingsState {
+export function useListings(bounds: MapBounds | null, filterQuery: string): ListingsState {
   const [state, setState] = useState<ListingsState>({ listings: [], total: 0, loading: true, error: false });
 
   useEffect(() => {
@@ -27,9 +27,8 @@ export function useListings(bounds: MapBounds | null): ListingsState {
     const timer = setTimeout(async () => {
       setState((s) => ({ ...s, loading: true, error: false }));
       try {
-        const query = new URLSearchParams(
-          Object.entries(bounds).map(([key, value]) => [key, String(value)]),
-        );
+        const query = new URLSearchParams(filterQuery);
+        for (const [key, value] of Object.entries(bounds)) query.set(key, String(value));
         const res = await fetch(`/api/listings?${query}`, { signal: controller.signal });
         if (!res.ok) throw new Error(`Request failed: ${res.status}`);
         const data = (await res.json()) as { listings: Listing[]; total: number };
@@ -50,7 +49,7 @@ export function useListings(bounds: MapBounds | null): ListingsState {
       clearTimeout(timer);
       controller.abort();
     };
-  }, [bounds]);
+  }, [bounds, filterQuery]);
 
   return state;
 }

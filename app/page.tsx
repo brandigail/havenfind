@@ -1,5 +1,11 @@
+import { Suspense } from "react";
 import { Explorer } from "@/features/explorer/Explorer";
 
 export default function Home() {
-  return <Explorer />;
+  // Explorer reads URL search params (filters), which requires a Suspense boundary.
+  return (
+    <Suspense>
+      <Explorer />
+    </Suspense>
+  );
 }
