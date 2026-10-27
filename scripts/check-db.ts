@@ -2,11 +2,14 @@ import { sql } from "drizzle-orm";
 import { db } from "../lib/db";
 
 async function main(): Promise<void> {
-  await db.execute(sql`CREATE EXTENSION IF NOT EXISTS postgis`);
-  const res = await db.execute(
-    sql`SELECT postgis_version() AS postgis, version() AS pg, ST_AsText(ST_MakePoint(18.42, -33.92)) AS point`,
+  const ext = await db.execute(sql`SELECT postgis_version() AS postgis`);
+  const idx = await db.execute(
+    sql`SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'listings' ORDER BY indexname`,
   );
-  console.log(res.rows[0]);
+  const col = await db.execute(
+    sql`SELECT type, srid FROM geometry_columns WHERE f_table_name = 'listings'`,
+  );
+  console.log(ext.rows[0], col.rows, idx.rows);
 }
 
 main().catch((err: unknown) => {
