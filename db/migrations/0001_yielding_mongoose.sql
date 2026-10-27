@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "bookings_listing_slot_unique" ON "bookings" USING btree ("listing_id","slot");

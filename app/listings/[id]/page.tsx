@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BookingForm } from "@/features/booking/BookingForm";
 import { Gallery } from "@/features/listing-detail/Gallery";
 import { MortgageCalculator } from "@/features/listing-detail/MortgageCalculator";
 import { SaveButton } from "@/features/saved/SaveButton";
@@ -78,6 +79,8 @@ export default async function ListingPage({ params }: PageProps<"/listings/[id]"
           </section>
 
           <MortgageCalculator price={listing.price} />
+
+          <BookingForm listingId={listing.id} agentName={agent.name} />
 
           <section aria-labelledby="agent-heading" className="rounded-lg border border-zinc-200 p-3 text-sm dark:border-zinc-800">
             <h2 id="agent-heading" className="mb-1 font-semibold">

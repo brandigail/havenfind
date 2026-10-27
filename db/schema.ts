@@ -1,4 +1,4 @@
-import { index, integer, pgEnum, pgTable, text, timestamp, geometry } from "drizzle-orm/pg-core";
+import { geometry, index, integer, pgEnum, pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 
 export const propertyType = pgEnum("property_type", ["HOUSE", "APARTMENT", "TOWNHOUSE", "LAND"]);
 
@@ -33,12 +33,17 @@ export const listings = pgTable(
   ],
 );
 
-export const bookings = pgTable("bookings", {
-  id: text("id").primaryKey(),
-  listingId: text("listing_id")
-    .notNull()
-    .references(() => listings.id),
-  name: text("name").notNull(),
-  email: text("email").notNull(),
-  slot: timestamp("slot", { withTimezone: true }).notNull(),
-});
+export const bookings = pgTable(
+  "bookings",
+  {
+    id: text("id").primaryKey(),
+    listingId: text("listing_id")
+      .notNull()
+      .references(() => listings.id),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    slot: timestamp("slot", { withTimezone: true }).notNull(),
+  },
+  // One viewing per listing per time slot; the database enforces it so races can't double-book.
+  (t) => [uniqueIndex("bookings_listing_slot_unique").on(t.listingId, t.slot)],
+);
