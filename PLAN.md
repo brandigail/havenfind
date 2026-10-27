@@ -4,7 +4,7 @@
 - [x] 2. Neon schema with PostGIS geometry and GIST index
 - [x] 3. `types/` interfaces and zod schemas
 - [x] 4. Seed script with 40+ listings and local placeholder images
-- [ ] 5. Listings API: bbox + filter query
+- [x] 5. Listings API: bbox + filter query
 - [ ] 6. Client-only Leaflet map with clustering
 - [ ] 7. Listing cards and map/list sync
 - [ ] 8. Filter panel with URL state
