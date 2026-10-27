@@ -1,31 +1,8 @@
 import { z } from "zod";
-import type { Agent, Booking, Listing, ListingFilters, MapBounds } from "@/types";
+import type { ListingFilters, MapBounds } from "@/types";
 
 export const propertyTypeSchema = z.enum(["HOUSE", "APARTMENT", "TOWNHOUSE", "LAND"]);
 export const sortOptionSchema = z.enum(["price-asc", "price-desc", "newest", "size-desc"]);
-
-export const listingSchema = z.object({
-  id: z.string().min(1),
-  title: z.string().min(1),
-  price: z.number().int().nonnegative(),
-  bedrooms: z.number().int().nonnegative(),
-  bathrooms: z.number().int().nonnegative(),
-  areaSqm: z.number().int().positive(),
-  type: propertyTypeSchema,
-  amenities: z.array(z.string()),
-  lat: z.number().min(-90).max(90),
-  lng: z.number().min(-180).max(180),
-  address: z.string().min(1),
-  images: z.array(z.string()),
-  agentId: z.string().min(1),
-}) satisfies z.ZodType<Listing>;
-
-export const agentSchema = z.object({
-  id: z.string().min(1),
-  name: z.string().min(1),
-  phone: z.string().min(1),
-  email: z.email(),
-}) satisfies z.ZodType<Agent>;
 
 export const bookingInputSchema = z.object({
   listingId: z.string().min(1),
@@ -33,10 +10,6 @@ export const bookingInputSchema = z.object({
   email: z.email(),
   slot: z.iso.datetime({ offset: true }),
 });
-
-export const bookingSchema = bookingInputSchema.extend({
-  id: z.string().min(1),
-}) satisfies z.ZodType<Booking>;
 
 export const savedListingSchema = z.object({
   listingId: z.string().min(1),

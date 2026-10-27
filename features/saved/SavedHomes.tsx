@@ -60,7 +60,7 @@ export function SavedHomes() {
   }
 
   return (
-    <ul className="grid gap-3 sm:grid-cols-2" aria-busy={loading}>
+    <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2" aria-busy={loading}>
       {homes.map((listing) => (
         <li key={listing.id} className="relative flex gap-3 rounded-lg border border-zinc-200 p-2 dark:border-zinc-800">
           <Image
