@@ -1,9 +1,10 @@
 import { count } from "drizzle-orm";
 import { agents, bookings, listings } from "../db/schema";
 import { SEED_AGENTS, buildListings } from "../db/seed-data";
-import { db } from "../lib/db";
+import { getDb } from "../lib/db";
 
 async function main(): Promise<void> {
+  const db = getDb();
   const rows = buildListings();
 
   // Reseeding is idempotent: clear in FK order, then insert in one batch.

@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { agents, listings } from "@/db/schema";
-import { db } from "@/lib/db";
+import { getDb } from "@/lib/db";
 import type { Agent, Listing } from "@/types";
 import { listingColumns } from "./query";
 
@@ -10,6 +10,7 @@ export interface ListingDetail {
 }
 
 export async function getListingDetail(id: string): Promise<ListingDetail | null> {
+  const db = getDb();
   const [listing] = await db.select(listingColumns).from(listings).where(eq(listings.id, id)).limit(1);
   if (!listing) return null;
 

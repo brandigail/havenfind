@@ -1,7 +1,8 @@
 import { sql } from "drizzle-orm";
-import { db } from "../lib/db";
+import { getDb } from "../lib/db";
 
 async function main(): Promise<void> {
+  const db = getDb();
   const byType = await db.execute(
     sql`SELECT type, count(*)::int AS n, min(price)::int AS min_price, max(price)::int AS max_price FROM listings GROUP BY type ORDER BY type`,
   );

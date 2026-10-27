@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { bookings, listings } from "@/db/schema";
 import { isAvailableSlot } from "@/lib/booking-slots";
-import { db } from "@/lib/db";
+import { getDb } from "@/lib/db";
 import { bookingInputSchema } from "@/lib/schemas";
 import type { Booking } from "@/types";
 
@@ -13,7 +13,7 @@ export async function GET(request: Request): Promise<Response> {
   if (!listingId) return Response.json({ error: "listingId is required" }, { status: 400 });
 
   try {
-    const rows = await db.select({ slot: bookings.slot }).from(bookings).where(eq(bookings.listingId, listingId));
+    const rows = await getDb().select({ slot: bookings.slot }).from(bookings).where(eq(bookings.listingId, listingId));
     return Response.json({ booked: rows.map((row) => row.slot.toISOString()) });
   } catch {
     return Response.json({ error: "Failed to load bookings" }, { status: 500 });
@@ -39,6 +39,7 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   try {
+    const db = getDb();
     const [listing] = await db.select({ id: listings.id }).from(listings).where(eq(listings.id, input.listingId)).limit(1);
     if (!listing) return Response.json({ error: "Listing not found" }, { status: 404 });
 

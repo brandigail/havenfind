@@ -1,6 +1,6 @@
 import { and, arrayContains, asc, desc, gte, inArray, lte, sql, type SQL } from "drizzle-orm";
 import { listings } from "@/db/schema";
-import { db } from "@/lib/db";
+import { getDb } from "@/lib/db";
 import type { Listing, ListingFilters, MapBounds } from "@/types";
 
 export const MAX_RESULTS = 500;
@@ -59,6 +59,7 @@ export async function queryListings(
   bounds?: MapBounds,
   ids?: string[],
 ): Promise<ListingsResult> {
+  const db = getDb();
   const where = buildWhere(filters, bounds, ids);
 
   const [rows, [totalRow]] = await Promise.all([
