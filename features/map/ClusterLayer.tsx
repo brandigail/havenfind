@@ -36,7 +36,10 @@ function popupContent(listing: Listing): HTMLElement {
   title.textContent = listing.title;
   const price = document.createElement("div");
   price.textContent = formatPrice(listing.price);
-  root.append(title, price);
+  const link = document.createElement("a");
+  link.href = `/listings/${listing.id}`;
+  link.textContent = "View details";
+  root.append(title, price, link);
   return root;
 }
 

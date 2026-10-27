@@ -5,6 +5,23 @@ import type { Listing, ListingFilters, MapBounds } from "@/types";
 
 export const MAX_RESULTS = 500;
 
+/** Columns matching the `Listing` interface; lat/lng are derived from the PostGIS point. */
+export const listingColumns = {
+  id: listings.id,
+  title: listings.title,
+  price: listings.price,
+  bedrooms: listings.bedrooms,
+  bathrooms: listings.bathrooms,
+  areaSqm: listings.areaSqm,
+  type: listings.type,
+  amenities: listings.amenities,
+  lat: sql<number>`ST_Y(${listings.location})`,
+  lng: sql<number>`ST_X(${listings.location})`,
+  address: listings.address,
+  images: listings.images,
+  agentId: listings.agentId,
+};
+
 const ORDER = {
   "price-asc": [asc(listings.price)],
   "price-desc": [desc(listings.price)],
@@ -41,21 +58,7 @@ export async function queryListings(filters: ListingFilters, bounds?: MapBounds)
 
   const [rows, [totalRow]] = await Promise.all([
     db
-      .select({
-        id: listings.id,
-        title: listings.title,
-        price: listings.price,
-        bedrooms: listings.bedrooms,
-        bathrooms: listings.bathrooms,
-        areaSqm: listings.areaSqm,
-        type: listings.type,
-        amenities: listings.amenities,
-        lat: sql<number>`ST_Y(${listings.location})`,
-        lng: sql<number>`ST_X(${listings.location})`,
-        address: listings.address,
-        images: listings.images,
-        agentId: listings.agentId,
-      })
+      .select(listingColumns)
       .from(listings)
       .where(where)
       .orderBy(...ORDER[filters.sort])
