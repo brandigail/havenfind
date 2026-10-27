@@ -2,7 +2,7 @@
 
 Map-first real estate discovery: pan a live map, filter 48 Cape Town listings in real time, estimate the mortgage, save homes and book a viewing.
 
-**Live demo:** TBD
+**Live demo:** https://havenfind-476.netlify.app
 
 ![Map, filters and listing cards on desktop](docs/screenshots/map-and-filters-desktop.png)
 
