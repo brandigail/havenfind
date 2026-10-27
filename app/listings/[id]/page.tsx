@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Gallery } from "@/features/listing-detail/Gallery";
+import { MortgageCalculator } from "@/features/listing-detail/MortgageCalculator";
 import { formatPrice } from "@/lib/format";
 import { getListingDetail } from "@/lib/listings/get";
 
@@ -71,6 +72,8 @@ export default async function ListingPage({ params }: PageProps<"/listings/[id]"
               ))}
             </ul>
           </section>
+
+          <MortgageCalculator price={listing.price} />
 
           <section aria-labelledby="agent-heading" className="rounded-lg border border-zinc-200 p-3 text-sm dark:border-zinc-800">
             <h2 id="agent-heading" className="mb-1 font-semibold">
