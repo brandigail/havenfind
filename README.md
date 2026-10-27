@@ -63,6 +63,10 @@ Other scripts: `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`.
 
 `npm run db:seed` clears and reloads the agents, listings and bookings tables, so only run it on a demo database.
 
+## Deployment
+
+Hosted on Netlify and connected to this GitHub repo: every push to `main` builds and deploys automatically (`npm run build`, Netlify's Next.js runtime). The only environment variable is `DATABASE_URL`, set in Netlify as a secret.
+
 ## Limitations
 
 - Listings, agents and prices are fictional seed data. Photos are generated placeholder illustrations (see `TODO-ASSETS.md`).
